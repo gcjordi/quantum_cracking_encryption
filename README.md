@@ -1,8 +1,6 @@
 [![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
 
-[![Python 3.6](https://img.shields.io/badge/python-3.6-green.svg)](https://www.python.org/downloads/release/python-360/) [![made-with-jupyter](https://img.shields.io/badge/Made%20with-Jupyter-1f425f.svg)](http://jupyter.org/) [![LinkedIn-profile](https://img.shields.io/badge/LinkedIn-Unnikrishnan-blue.svg)](https://www.linkedin.com/in/unnikrishnan-menon-aa013415a/) [![License](https://img.shields.io/badge/License-Apache%202.0-red.svg)](https://opensource.org/licenses/Apache-2.0)
-[![GitHub followers](https://img.shields.io/github/followers/7enTropy7?label=Follow&style=social)](https://github.com/7enTropy7?tab=followers) [![GitHub stars](https://img.shields.io/github/stars/7enTropy7/Shor-s-Algorithm_Quantum.svg?style=social&label=Star&maxAge=2592000)](https://GitHub.com/7enTropy7/Shor-s-Algorithm_Quantum/stargazers/)
-
+[![Python 3.6](https://img.shields.io/badge/python-3.6-green.svg)](https://www.python.org/downloads/release/python-360/) [![made-with-jupyter](https://img.shields.io/badge/Made%20with-Jupyter-1f425f.svg)](http://jupyter.org/) [![LinkedIn-profile](https://img.shields.io/badge/LinkedIn-gcjordi-blue.svg)](https://www.linkedin.com/in/gcjordi/)
 
 # Shor-s-Algorithm_Quantum
 
@@ -18,7 +16,7 @@ If a quantum computer with a sufficient number of qubits could operate without s
 
 ## Cloning
 ```bash
-$ git clone https://github.com/7enTropy7/Shor-s-Algorithm_Quantum.git
+$ git clone https://github.com/gcjordi/quantum_cracking_encryption.git
 ```
 
 ## Dependencies
@@ -38,18 +36,3 @@ $ jupyter notebook Breaking_RSA.ipynb
 ![Screenshot from 2019-12-26 02-05-22](https://user-images.githubusercontent.com/36446402/71672216-59eb6000-2d9b-11ea-95c7-4d543931f7b2.png)
 
 ![Screenshot from 2019-12-26 02-03-53](https://user-images.githubusercontent.com/36446402/71672192-4cce7100-2d9b-11ea-9a33-68202196974c.png)
-
-
-
-
-## Authors
-[![LinkedIn-profile](https://img.shields.io/badge/LinkedIn-Unnikrishnan-green.svg)](https://www.linkedin.com/in/unnikrishnan-menon-aa013415a/) [![LinkedIn-profile](https://img.shields.io/badge/LinkedIn-Awnon-orange.svg)](https://www.linkedin.com/in/awnon-bhowmik-13a5a013b/?miniProfileUrn=urn%3Ali%3Afs_miniProfile%3AACoAACIUlr4BQG5MmK7AYfJbU5Zaacunw1qLanM)
-
-* [**Unnikrishnan Menon**](https://github.com/7enTropy7)
-* [**Awnon Bhowmik**](https://github.com/awnonbhowmik)
-
-
-## License
-[![License](https://img.shields.io/badge/License-Apache%202.0-red.svg)](https://opensource.org/licenses/Apache-2.0)
-
-This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details
