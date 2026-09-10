@@ -1,12 +1,14 @@
 # Quantum Cryptography Lab v2.0
 
+[![CI](https://github.com/gcjordi/quantum_cracking_encryption/actions/workflows/tests.yml/badge.svg)](https://github.com/gcjordi/quantum_cracking_encryption/actions/workflows/tests.yml)
+[![CodeQL](https://github.com/gcjordi/quantum_cracking_encryption/actions/workflows/codeql-analysis.yml/badge.svg)](https://github.com/gcjordi/quantum_cracking_encryption/actions/workflows/codeql-analysis.yml)
 [![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
-[![Tests](https://github.com/gcjordi/quantum_cracking_encryption/actions/workflows/tests.yml/badge.svg)](https://github.com/gcjordi/quantum_cracking_encryption/actions/workflows/tests.yml)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/gcjordi/quantum_cracking_encryption/blob/master/Colab_Quickstart.ipynb)
 
 A provider-neutral educational laboratory for understanding **Shor's algorithm, RSA risk and the transition to post-quantum cryptography**.
 
-I originally created this repository as an experiment around RSA factorization and Shor's algorithm. In v2.0 I rebuilt the project to make the scientific boundary clearer, remove the old IBM Quantum dependency, modernize the codebase, and connect the demonstration to today's post-quantum cryptography landscape.
+I originally created this repository as an experiment around RSA factorization and Shor's algorithm. In v2.0 I rebuilt the project to make the scientific boundary clearer, remove the old IBM Quantum dependency, modernize the codebase, and connect the demonstration to the current post-quantum cryptography landscape.
 
 > **Important:** this repository is an educational simulator. It does not break real-world RSA keys and it is not production cryptographic software.
 
@@ -24,7 +26,7 @@ I originally created this repository as an experiment around RSA factorization a
 
 The core implementation does **not** require IBM Quantum, IBM Cloud, an API key, a quantum account, Qiskit, Cirq, AWS Braket, Azure Quantum or any other provider.
 
-The default backend is a small **NumPy statevector simulator** designed specifically for the educational order-finding experiment. This means the same notebooks can run in:
+The default backend is a small **NumPy statevector simulator** designed specifically for the educational order-finding experiment. The same notebooks can therefore run in:
 
 - Google Colab
 - JupyterLab / Jupyter Notebook
@@ -38,7 +40,7 @@ The backend API is separated from Shor's classical orchestration, so additional 
 
 ### Google Colab
 
-Open `Colab_Quickstart.ipynb` and run the cells. The first cell installs the repository package automatically from GitHub when needed.
+Use the **Open In Colab** badge above or open `Colab_Quickstart.ipynb` and run the cells. The bootstrap cell installs the repository package automatically from GitHub when needed.
 
 ### Existing checkout / notebook environment
 
@@ -61,7 +63,7 @@ for n in (15, 21, 35):
 ## Toy RSA demonstration
 
 ```python
-from quantum_crypto_lab import ShorSimulator, build_toy_keypair, encrypt_int, decrypt_int
+from quantum_crypto_lab import ShorSimulator, build_toy_keypair, decrypt_int, encrypt_int
 from quantum_crypto_lab.rsa_demo import recover_private_key_from_factors
 
 key = build_toy_keypair(p=5, q=7, e=5)
@@ -111,11 +113,18 @@ NIST standardized its first post-quantum cryptography standards in 2024:
 
 See `docs/POST_QUANTUM.md` for the migration-oriented view.
 
-## Security and ethics
+## Repository health and security
 
-This project only demonstrates factorization of deliberately tiny, generated educational moduli. Do not use it to target systems, keys or data you do not own or have explicit permission to test.
+The repository is maintained with:
 
-See `SECURITY.md`.
+- CI across Python **3.10–3.14**.
+- Ruff static linting.
+- GitHub CodeQL with the `security-and-quality` query suite.
+- Dependency Review on pull requests.
+- Dependabot version updates for Python dependencies and GitHub Actions.
+- Structured bug and feature request forms.
+
+This project only demonstrates factorization of deliberately tiny, generated educational moduli. Do not use it to target systems, keys or data you do not own or have explicit permission to test. See `SECURITY.md` for responsible disclosure.
 
 ## Project structure
 
@@ -133,11 +142,12 @@ app.py                     optional Gradio educational UI
 
 ## Development
 
-Core installation:
+Core development installation:
 
 ```bash
-python -m pip install -e .
+python -m pip install -e '.[dev]'
 pytest
+ruff check quantum_crypto_lab tests
 ```
 
 Optional browser UI:
@@ -146,6 +156,10 @@ Optional browser UI:
 python -m pip install -e '.[ui]'
 python app.py
 ```
+
+## Contributing
+
+Contributions are welcome when they preserve the project's provider-neutral and educational scope. See `CONTRIBUTING.md`, `CODE_OF_CONDUCT.md` and the issue/PR templates before contributing.
 
 ## License
 
