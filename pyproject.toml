@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=70", "wheel"]
+requires = ["setuptools>=77.0.3", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -8,7 +8,8 @@ version = "2.0.0"
 description = "Provider-neutral educational Shor, RSA and post-quantum cryptography lab"
 readme = "README.md"
 requires-python = ">=3.10"
-license = {text = "GPL-3.0-only"}
+license = "GPL-3.0-only"
+license-files = ["LICENSE"]
 authors = [{name = "Jordi Garcia Castillón"}]
 dependencies = ["numpy>=1.26,<3"]
 keywords = ["quantum-computing", "shor", "rsa", "post-quantum-cryptography", "cybersecurity"]
@@ -16,13 +17,21 @@ classifiers = [
   "Development Status :: 4 - Beta",
   "Intended Audience :: Education",
   "Intended Audience :: Science/Research",
-  "License :: OSI Approved :: GNU General Public License v3 (GPLv3)",
+  "Operating System :: OS Independent",
   "Programming Language :: Python :: 3",
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Programming Language :: Python :: 3.14",
   "Topic :: Security :: Cryptography",
 ]
+
+[project.urls]
+Homepage = "https://jordigarcia.eu/"
+Repository = "https://github.com/gcjordi/quantum_cracking_encryption"
+Issues = "https://github.com/gcjordi/quantum_cracking_encryption/issues"
+Documentation = "https://github.com/gcjordi/quantum_cracking_encryption/tree/master/docs"
 
 [project.optional-dependencies]
 dev = ["pytest>=8", "ruff>=0.6"]

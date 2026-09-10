@@ -1,0 +1,43 @@
+name: Feature request
+description: Suggest an improvement that preserves the project's educational and provider-neutral scope.
+title: "[Feature]: "
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Problem or learning need
+      description: What problem would this improvement solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed improvement
+      description: Describe the behavior, documentation or educational capability you would like to add.
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: Area
+      options:
+        - Shor / order finding
+        - RSA educational demo
+        - Post-quantum cryptography
+        - Backend portability
+        - Notebook / Colab experience
+        - Gradio UI
+        - Documentation
+        - CI / project maintenance
+        - Other
+    validations:
+      required: true
+  - type: checkboxes
+    id: principles
+    attributes:
+      label: Project principles
+      options:
+        - label: The proposal can remain provider-neutral or be implemented as an optional adapter.
+          required: true
+        - label: The proposal does not depend on presenting toy simulations as real-world RSA cracking.
+          required: true
