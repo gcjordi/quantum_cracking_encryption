@@ -25,6 +25,8 @@ class ClassicalExactOrderBackend:
         seed: int | None = 7,
     ) -> OrderFindingResult:
         del seed
+        if shots <= 0:
+            raise ValueError("shots must be positive")
         t = counting_qubits or 2 * max(1, ceil(log2(n)))
         q = 1 << t
         r = multiplicative_order(a, n)
@@ -32,9 +34,12 @@ class ClassicalExactOrderBackend:
         # validation fixture, not a substitute for the NumPy quantum backend.
         peaks = sorted({round(s * q / r) % q for s in range(r)})
         base = shots // len(peaks)
-        counts = {k: base for k in peaks}
-        for k in peaks[: shots - base * len(peaks)]:
-            counts[k] += 1
+        remainder = shots - base * len(peaks)
+        counts = {
+            k: base + (1 if index < remainder else 0)
+            for index, k in enumerate(peaks)
+            if base + (1 if index < remainder else 0) > 0
+        }
         probs = [0.0] * q
         for k in peaks:
             probs[k] = 1.0 / len(peaks)
