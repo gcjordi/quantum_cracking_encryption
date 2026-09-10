@@ -54,7 +54,8 @@ class ShorSimulator:
     @staticmethod
     def _ranked_measurements(result: OrderFindingResult) -> list[int]:
         return [
-            k for k, _count in sorted(
+            k
+            for k, _count in sorted(
                 result.counts.items(), key=lambda item: (-item[1], item[0])
             )
             if k != 0
@@ -72,19 +73,45 @@ class ShorSimulator:
     ) -> FactorizationResult:
         if n < 2:
             raise ValueError("n must be >= 2")
-        if n % 2 == 0:
-            return FactorizationResult(n, (2, n // 2), True, self.backend.name, (
-                Attempt(2, "classical-precheck", factors=(2, n // 2), note="n is even"),
-            ))
         if is_prime(n):
-            return FactorizationResult(n, None, False, self.backend.name, (
-                Attempt(0, "classical-precheck", note="n is prime"),
-            ))
+            return FactorizationResult(
+                n,
+                None,
+                False,
+                self.backend.name,
+                (Attempt(0, "classical-precheck", note="n is prime"),),
+            )
+        if n % 2 == 0:
+            return FactorizationResult(
+                n,
+                (2, n // 2),
+                True,
+                self.backend.name,
+                (
+                    Attempt(
+                        2,
+                        "classical-precheck",
+                        factors=(2, n // 2),
+                        note="n is even",
+                    ),
+                ),
+            )
         root = isqrt(n)
         if root * root == n:
-            return FactorizationResult(n, (root, root), True, self.backend.name, (
-                Attempt(root, "classical-precheck", factors=(root, root), note="perfect square"),
-            ))
+            return FactorizationResult(
+                n,
+                (root, root),
+                True,
+                self.backend.name,
+                (
+                    Attempt(
+                        root,
+                        "classical-precheck",
+                        factors=(root, root),
+                        note="perfect square",
+                    ),
+                ),
+            )
 
         attempts: list[Attempt] = []
         used = 0
