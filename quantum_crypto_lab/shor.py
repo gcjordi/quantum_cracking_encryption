@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+from collections.abc import Iterable
 from dataclasses import dataclass, field
 from math import gcd, isqrt
-from typing import Iterable
 
 from .backends import NumpyStatevectorBackend, OrderFindingBackend, OrderFindingResult
 from .math_utils import (

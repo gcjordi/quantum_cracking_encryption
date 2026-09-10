@@ -4,19 +4,19 @@ Educational, provider-neutral simulations of Shor order finding, toy RSA,
 and the migration context for post-quantum cryptography.
 """
 
-from .shor import FactorizationResult, ShorSimulator, factor_integer
-from .rsa_demo import ToyRSAKeyPair, build_toy_keypair, encrypt_int, decrypt_int
 from .pqc import PQC_STANDARDS, quantum_threat_for_primitive
+from .rsa_demo import ToyRSAKeyPair, build_toy_keypair, decrypt_int, encrypt_int
+from .shor import FactorizationResult, ShorSimulator, factor_integer
 
 __all__ = [
+    "PQC_STANDARDS",
     "FactorizationResult",
     "ShorSimulator",
-    "factor_integer",
     "ToyRSAKeyPair",
     "build_toy_keypair",
-    "encrypt_int",
     "decrypt_int",
-    "PQC_STANDARDS",
+    "encrypt_int",
+    "factor_integer",
     "quantum_threat_for_primitive",
 ]
 

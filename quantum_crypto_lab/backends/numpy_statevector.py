@@ -41,7 +41,7 @@ class NumpyStatevectorBackend:
         if gcd(a, n) != 1:
             raise ValueError("quantum order finding requires gcd(a, n) == 1")
 
-        _work_qubits, t, q, work_dim = self._register_sizes(n, counting_qubits)
+        _work_qubits, _t, q, work_dim = self._register_sizes(n, counting_qubits)
         amplitudes = q * work_dim
         if amplitudes > self.max_state_amplitudes:
             raise MemoryError(
@@ -78,7 +78,7 @@ class NumpyStatevectorBackend:
         if shots <= 0:
             raise ValueError("shots must be positive")
         probs = self.exact_probabilities(a, n, counting_qubits=counting_qubits)
-        t = int(round(log2(len(probs))))
+        t = round(log2(len(probs)))
         rng = np.random.default_rng(seed)
         sampled = rng.multinomial(shots, probs)
         counts = {int(k): int(v) for k, v in enumerate(sampled) if v}
