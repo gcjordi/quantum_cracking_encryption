@@ -32,4 +32,5 @@ class OrderFindingBackend(Protocol):
         counting_qubits: int | None = None,
         shots: int = 4096,
         seed: int | None = 7,
-    ) -> OrderFindingResult: ...
+    ) -> OrderFindingResult:
+        raise NotImplementedError
