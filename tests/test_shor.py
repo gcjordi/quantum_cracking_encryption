@@ -15,6 +15,12 @@ def test_even_precheck():
     assert result.factors == (2, 7)
 
 
+def test_two_is_prime_not_a_factorization():
+    result = factor_integer(2)
+    assert not result.success
+    assert result.factors is None
+
+
 def test_prime_reports_no_factorization():
     result = factor_integer(13)
     assert not result.success
