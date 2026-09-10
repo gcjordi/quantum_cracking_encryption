@@ -1,0 +1,11 @@
+cff-version: 1.2.0
+title: "Quantum Cryptography Lab"
+message: "If you use this educational repository, please cite the project."
+type: software
+authors:
+  - family-names: "Garcia Castillón"
+    given-names: "Jordi"
+version: 2.0.0
+date-released: 2026-09-10
+repository-code: "https://github.com/gcjordi/quantum_cracking_encryption"
+license: GPL-3.0-only

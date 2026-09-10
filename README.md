@@ -1,38 +1,156 @@
-[![forthebadge made-with-python](http://ForTheBadge.com/images/badges/made-with-python.svg)](https://www.python.org/)
+# Quantum Cryptography Lab v2.0
 
-[![Python 3.6](https://img.shields.io/badge/python-3.6-green.svg)](https://www.python.org/downloads/release/python-360/) [![made-with-jupyter](https://img.shields.io/badge/Made%20with-Jupyter-1f425f.svg)](http://jupyter.org/) [![LinkedIn-profile](https://img.shields.io/badge/LinkedIn-gcjordi-blue.svg)](https://www.linkedin.com/in/gcjordi/)
+[![Python 3.10+](https://img.shields.io/badge/Python-3.10%2B-blue.svg)](https://www.python.org/)
+[![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](LICENSE)
+[![Tests](https://github.com/gcjordi/quantum_cracking_encryption/actions/workflows/tests.yml/badge.svg)](https://github.com/gcjordi/quantum_cracking_encryption/actions/workflows/tests.yml)
 
-# Shor-s-Algorithm_Quantum
+A provider-neutral educational laboratory for understanding **Shor's algorithm, RSA risk and the transition to post-quantum cryptography**.
 
-A few months we had implemented RSA encryption from scratch with tweakable security parameters. This is a practical implementation of Shor's Algorithm to break our RSA encryption layer.
+I originally created this repository as an experiment around RSA factorization and Shor's algorithm. In v2.0 I rebuilt the project to make the scientific boundary clearer, remove the old IBM Quantum dependency, modernize the codebase, and connect the demonstration to today's post-quantum cryptography landscape.
 
-Shor’s algorithm was invented for integer factorization in 1994.  This algorithm is based on quantum computing and hence referred to as a quantum algorithm. The algorithm finds the prime factors of an integer P. Shor’s algorithm executes in polynomial time which is of the order polynomial in log N. On a classical computer,  it takes the execution time of the order O((log N)3).
+> **Important:** this repository is an educational simulator. It does not break real-world RSA keys and it is not production cryptographic software.
 
-We made use of IBM's Quantum Experience Qiskit module in jupyternotebook for designing the quantum circuit that works on qubits instead of the traditional bits.
+## What v2.0 does
 
-Qiskit is an open-source quantum computing software development framework for leveraging today's quantum processors in research, education, and business.
+- Simulates the quantum **order-finding** core of Shor's algorithm for small composite integers.
+- Models the state after reversible modular exponentiation: `|x>|a^x mod N>`.
+- Applies the **inverse Quantum Fourier Transform** numerically using a unitary FFT-equivalent operation.
+- Recovers the period with **continued fractions** and performs Shor's classical post-processing.
+- Demonstrates how recovering the factors of a toy RSA modulus allows reconstruction of its private key.
+- Includes machine-readable information about NIST's post-quantum standards: **ML-KEM, ML-DSA and SLH-DSA**.
+- Includes dated research context for published RSA-2048 quantum resource estimates.
 
-If a quantum computer with a sufficient number of qubits could operate without succumbing to quantum noise and other quantum-decoherence phenomena, then Shor's algorithm could be used to break public-key cryptography schemes, such as the widely-used RSA scheme. RSA is based on the assumption that factoring large integers is computationally intractable. 
+## Provider-neutral by design
 
-## Cloning
-```bash
-$ git clone https://github.com/gcjordi/quantum_cracking_encryption.git
+The core implementation does **not** require IBM Quantum, IBM Cloud, an API key, a quantum account, Qiskit, Cirq, AWS Braket, Azure Quantum or any other provider.
+
+The default backend is a small **NumPy statevector simulator** designed specifically for the educational order-finding experiment. This means the same notebooks can run in:
+
+- Google Colab
+- JupyterLab / Jupyter Notebook
+- AWS EC2, SageMaker or other Python notebook environments
+- Azure, GCP or local Python environments
+- GitHub Codespaces
+
+The backend API is separated from Shor's classical orchestration, so additional engines can be added later without rewriting the rest of the project.
+
+## Quick start
+
+### Google Colab
+
+Open `Colab_Quickstart.ipynb` and run the cells. The first cell installs the repository package automatically from GitHub when needed.
+
+### Existing checkout / notebook environment
+
+```python
+from quantum_crypto_lab import factor_integer
+
+result = factor_integer(15)
+print(result.factors)
+# (3, 5)
 ```
 
-## Dependencies
-```bash
-$ pip3 install -r requirements.txt
+Try other deliberately small educational examples:
+
+```python
+for n in (15, 21, 35):
+    result = factor_integer(n)
+    print(n, result.factors, result.backend_name)
 ```
 
-## How to Run
-```bash
-$ jupyter notebook Breaking_RSA.ipynb
+## Toy RSA demonstration
+
+```python
+from quantum_crypto_lab import ShorSimulator, build_toy_keypair, encrypt_int, decrypt_int
+from quantum_crypto_lab.rsa_demo import recover_private_key_from_factors
+
+key = build_toy_keypair(p=5, q=7, e=5)
+message = 12
+ciphertext = encrypt_int(message, key.public_key)
+
+factored = ShorSimulator().factor(key.n)
+p, q = factored.factors
+recovered_private = recover_private_key_from_factors(key.public_key, p, q)
+recovered_message = decrypt_int(ciphertext, recovered_private)
+
+print(message, ciphertext, recovered_message)
 ```
 
-## Output
+## Notebooks
 
-![Screenshot from 2019-12-26 02-05-00](https://user-images.githubusercontent.com/36446402/71672203-5526ac00-2d9b-11ea-9aff-27a6d9705b33.png)
+- `Colab_Quickstart.ipynb` — easiest portable entry point.
+- `Breaking_RSA.ipynb` — end-to-end toy RSA → Shor → recovered private key demonstration.
+- `Factorizer_Quantum_Simulator.ipynb` — factor 15, 21 and 35 and inspect order-finding measurements.
+- `notebooks/01_shor_order_finding.ipynb` — deeper look at QPE/QFT measurement peaks.
+- `notebooks/02_rsa_quantum_risk.ipynb` — what the toy experiment does and does not imply for real RSA.
+- `notebooks/03_post_quantum_transition.ipynb` — NIST PQC standards and migration context.
 
-![Screenshot from 2019-12-26 02-05-22](https://user-images.githubusercontent.com/36446402/71672216-59eb6000-2d9b-11ea-95c7-4d543931f7b2.png)
+## Scientific scope
 
-![Screenshot from 2019-12-26 02-03-53](https://user-images.githubusercontent.com/36446402/71672192-4cce7100-2d9b-11ea-9a33-68202196974c.png)
+The simulator is intentionally limited to small integers. A statevector simulator has exponential memory requirements and cannot scale to cryptographically relevant RSA sizes. This is a feature of the educational boundary, not a claim that RSA-2048 can be attacked on a laptop.
+
+The included RSA-2048 resource figures are **published research estimates**, not predictions of when a cryptographically relevant quantum computer will exist.
+
+## Why the old implementation was replaced
+
+The original notebooks used Qiskit 0.14-era APIs and an order-finding function whose measured quantum result was not actually used to derive the returned period. v2.0 replaces that mechanism rather than cosmetically refactoring it.
+
+The new flow is:
+
+`choose a` → `gcd pre-check` → `quantum order-finding simulation` → `QFT measurement` → `continued fractions` → `period r` → `gcd(a^(r/2) ± 1, N)` → `factors`
+
+## Post-quantum context
+
+Shor's algorithm threatens public-key schemes based on integer factorization and discrete logarithms, including RSA and traditional elliptic-curve public-key cryptography, once sufficiently capable fault-tolerant quantum computers exist.
+
+NIST standardized its first post-quantum cryptography standards in 2024:
+
+- FIPS 203 — ML-KEM
+- FIPS 204 — ML-DSA
+- FIPS 205 — SLH-DSA
+
+See `docs/POST_QUANTUM.md` for the migration-oriented view.
+
+## Security and ethics
+
+This project only demonstrates factorization of deliberately tiny, generated educational moduli. Do not use it to target systems, keys or data you do not own or have explicit permission to test.
+
+See `SECURITY.md`.
+
+## Project structure
+
+```text
+quantum_crypto_lab/        reusable Python package
+  backends/                provider-neutral backend contract + NumPy simulator
+notebooks/                 extended educational notebooks
+tests/                     automated tests
+docs/                      architecture, theory, PQC and research context
+Breaking_RSA.ipynb         updated compatibility notebook
+Factorizer_Quantum_Simulator.ipynb
+Colab_Quickstart.ipynb
+app.py                     optional Gradio educational UI
+```
+
+## Development
+
+Core installation:
+
+```bash
+python -m pip install -e .
+pytest
+```
+
+Optional browser UI:
+
+```bash
+python -m pip install -e '.[ui]'
+python app.py
+```
+
+## License
+
+GPL-3.0, preserving the repository's existing license.
+
+## Author
+
+Developed and maintained by **Jordi Garcia Castillón (gcjordi)**.
